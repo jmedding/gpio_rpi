@@ -117,6 +117,11 @@ defmodule GpioRpi do
     {:reply, response, state}
   end
 
+  def handle_call(:dht11, _from, state) do
+    {:ok, response} = call_port(state, :dht11, [])
+    {:reply, response, state}
+  end
+
   def handle_cast(:release, state) do
     {:stop, :normal, state}
   end
