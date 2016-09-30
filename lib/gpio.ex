@@ -77,6 +77,14 @@ defmodule GpioRpi do
     GenServer.call pid, {:set_mode, pullup_mode}
   end
 
+  @doc """
+  Get the temp and humidity readings from the DHT11 on the pin.
+  """
+  @spec dht11(pid) :: :ok | {:error, term}
+  def dht11(pid) do
+    GenServer.call pid, :sense
+  end
+
   # gen_server callbacks
   def init([pin, pin_direction]) do
     executable = :code.priv_dir(:gpio_rpi) ++ '/gpio_rpi'
