@@ -38,6 +38,8 @@
 #include "gpio_port.h"
 #include "gpio_port_rpi.h"
 
+extern int dht11_sense(struct gpio *pin);
+
 //#define DEBUG
 #ifdef DEBUG
 #define debug(...) do { fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\r\n"); } while(0)
@@ -282,6 +284,11 @@ void gpio_handle_request(const char *req, void *cookie)
         debug("set_mode %s", mode);
 
         gpio_pullup(pin, mode);
+        ei_encode_atom(resp, &resp_index, "ok");
+
+    } else if (strcmp(cmd, "dht11") == 0) {
+        debug("dth11");
+        dht11_sense(pin);
         ei_encode_atom(resp, &resp_index, "ok");
 
     } else

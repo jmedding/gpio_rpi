@@ -42,7 +42,7 @@ all: priv/gpio_rpi
 %.o: %.c
 	$(CC) -c $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
 
-priv/gpio_rpi: src/erlcmd.o src/gpio_port.o src/gpio_port_rpi.o
+priv/gpio_rpi: src/erlcmd.o src/gpio_port.o src/gpio_port_rpi.o src/dht11_port_rpi.o
 	@mkdir -p priv
 	$(CC) $^ $(ERL_LDFLAGS) $(LDFLAGS) -o $@
 
