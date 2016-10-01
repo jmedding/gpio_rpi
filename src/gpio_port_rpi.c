@@ -34,7 +34,7 @@
 #include "erlcmd.h"
 #include "gpio_port.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define debug(...) do { fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\r\n"); } while(0)
 #else
@@ -194,7 +194,7 @@ void gpio_pullup(struct gpio *pin, char *mode_str)
 
   if(mode == PULLUP_NOTSET)
     return;
-
+  debug("pullup mode: %d", mode);
   gpio_mem[37] = mode & 0x3;
   usleep(1);
 
