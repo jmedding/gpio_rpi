@@ -58,11 +58,14 @@ int dht11_sense(struct gpio *pin)
  
   /* pull pin down for 18 milliseconds */
   debug("sense start");
+  debug (gpio_read( pin ));
   gpio_pullup(pin, DOWN);
+  gpio_read( pin )
   usleep( 18 * 1000 );
 
   /* then pull it up for 20-40 microseconds */
   gpio_pullup(pin, UP);
+  gpio_read( pin )
   usleep( 20 ); // not sure that we need to wait, might miss first pullup from dht11
 
   /* detect change and read data */
@@ -70,7 +73,7 @@ int dht11_sense(struct gpio *pin)
   {
     counter = 0;
     //while ( digitalRead( DHTPIN ) == laststate )
-    currentstate = gpio_read( pin );
+    laststate = currentstate = gpio_read( pin );
     while ( currentstate == laststate)
     {
       counter++;
