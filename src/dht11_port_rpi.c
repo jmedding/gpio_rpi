@@ -61,7 +61,7 @@ int dht11_sense(struct gpio *pin)
   debug ("Start state: %d", gpio_read( pin ));
   gpio_pullup(pin, DOWN);
   debug ("pulled DOWN: %d", gpio_read( pin ));
-  usleep( 18 * 1000 );
+  usleep( 18 * 1000000 );
 
   /* then pull it up for 20-40 microseconds */
   gpio_pullup(pin, UP);
