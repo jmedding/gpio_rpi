@@ -42,6 +42,7 @@
 extern int gpio_read( struct gpio *pin);
 extern int gpio_write( struct gpio *pin, unsigned int val);
 extern int gpio_init(struct gpio *pin, unsigned int pin_number, enum gpio_state dir);
+extern int gpio_set_int(struct gpio *pin, const char *mode);
 
 char *UP = "up";
 char *DOWN = "down";
@@ -79,6 +80,7 @@ int dht11_sense(struct gpio *pin)
   dir = GPIO_INPUT;
   if (gpio_init(pin, pin->pin_number, dir) < 0)
         errx(EXIT_FAILURE, "Error initializing GPIO as INPUT");
+  gpoi_set_int(pin, "falling");
   usleep( 20 ); // not sure that we need to wait, might miss first pullup from dht11
 
   /* detect change and read data */
