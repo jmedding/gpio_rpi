@@ -46,10 +46,12 @@ int dht11_dat[5] = { 0, 0, 0, 0, 0 };
 //struct dht11Result dht11_sense(struct gpio *pin)
 int dht11_sense(struct gpio *pin)
 {
+  //expects pin to be in :output mode
   uint8_t currentstate, laststate = HIGH;
   uint8_t counter   = 0;
   uint8_t j   = 0, i;
   float f; /* fahrenheit */
+  enum gpio_state dir = GPIO_OUTPUT;
   //struct dht11Result result;
   char meas [MAXTIMINGS][20];
 
@@ -66,6 +68,9 @@ int dht11_sense(struct gpio *pin)
   /* then pull it up for 20-40 microseconds */
   gpio_write(pin, HIGH);
   debug ("Pull up and wait: %d", gpio_read( pin ));
+  dir = GPIO_INPUT;
+  if (gpio_init(&pin, pin_number, dir) < 0)
+        errx(EXIT_FAILURE, "Error initializing GPIO as INPUT");
   usleep( 20 ); // not sure that we need to wait, might miss first pullup from dht11
 
   /* detect change and read data */
@@ -111,6 +116,9 @@ int dht11_sense(struct gpio *pin)
   debug("sense polling finished");
 
   // Reset dht11 pin to high, to wait for next start signal.
+  dir = GPIO_OUTPUT;
+  if (gpio_init(&pin, pin_number, dir) < 0)
+        errx(EXIT_FAILURE, "Error initializing GPIO as OUTPUT");
   gpio_write( pin, HIGH);
 
 
