@@ -51,6 +51,10 @@ int dht11_dat[5] = { 0, 0, 0, 0, 0 };
 int dht11_sense(struct gpio *pin)
 {
   //expects pin to be in :output mode
+  if (gpio_read(pin) == 0) {
+    gpio_write(pin, HIGH);
+    sleep(1);
+  }
   uint8_t currentstate, laststate = HIGH;
   uint8_t counter   = 0;
   uint8_t j   = 0, i;
