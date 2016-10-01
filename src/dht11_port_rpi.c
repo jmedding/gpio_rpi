@@ -25,6 +25,8 @@
 #include "gpio_port.h"
 #include "gpio_port_rpi.h"
 #include <unistd.h>
+#include <stdlib.h>
+#include <err.h>
 
 #define DEBUG
 #ifdef DEBUG
@@ -38,6 +40,8 @@
 #define MAXTIMINGS  85
 
 extern int gpio_read( struct gpio *pin);
+extern int gpio_write( struct gpio *pin, unsigned int val);
+extern int gpio_init(struct gpio *pin, unsigned int pin_number, enum gpio_state dir);
 
 char *UP = "up";
 char *DOWN = "down";
@@ -69,7 +73,7 @@ int dht11_sense(struct gpio *pin)
   gpio_write(pin, HIGH);
   debug ("Pull up and wait: %d", gpio_read( pin ));
   dir = GPIO_INPUT;
-  if (gpio_init(&pin, pin_number, dir) < 0)
+  if (gpio_init(pin, pin->pin_number, dir) < 0)
         errx(EXIT_FAILURE, "Error initializing GPIO as INPUT");
   usleep( 20 ); // not sure that we need to wait, might miss first pullup from dht11
 
@@ -117,7 +121,7 @@ int dht11_sense(struct gpio *pin)
 
   // Reset dht11 pin to high, to wait for next start signal.
   dir = GPIO_OUTPUT;
-  if (gpio_init(&pin, pin_number, dir) < 0)
+  if (gpio_init(pin, pin->pin_number, dir) < 0)
         errx(EXIT_FAILURE, "Error initializing GPIO as OUTPUT");
   gpio_write( pin, HIGH);
 
