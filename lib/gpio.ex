@@ -82,7 +82,7 @@ defmodule GpioRpi do
   """
   @spec dht11(pid) :: :ok | {:error, term}
   def dht11(pid) do
-    GenServer.call pid, :sense
+    GenServer.call pid, :dht11
   end
 
   # gen_server callbacks
