@@ -59,12 +59,12 @@ int dht11_sense(struct gpio *pin)
   /* pull pin down for 18 milliseconds */
   debug("sense start");
   debug ("Start state: %d", gpio_read( pin ));
-  gpio_pullup(pin, DOWN);
+  gpio_writeup(pin, LOW);
   debug ("pulled DOWN: %d", gpio_read( pin ));
-  usleep( 18 * 1000000 );
+  usleep( 18 * 1000 );
 
   /* then pull it up for 20-40 microseconds */
-  gpio_pullup(pin, UP);
+  gpio_write(pin, HIGH);
   debug ("Pull up and wait: %d", gpio_read( pin ));
   usleep( 20 ); // not sure that we need to wait, might miss first pullup from dht11
 
@@ -111,7 +111,7 @@ int dht11_sense(struct gpio *pin)
   debug("sense polling finished");
 
   // Reset dht11 pin to high, to wait for next start signal.
-  gpio_pullup( pin, UP);
+  gpio_write( pin, HIGH);
 
 
   /*

@@ -34,7 +34,7 @@
 #include "erlcmd.h"
 #include "gpio_port.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define debug(...) do { fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\r\n"); } while(0)
 #else
