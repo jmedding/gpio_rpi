@@ -191,10 +191,10 @@ int get_pullup_mode(char *mode)
 void gpio_pullup(struct gpio *pin, char *mode_str)
 {
   int mode = get_pullup_mode(mode_str);
+  debug("pullup mode: %d", mode);
 
   if(mode == PULLUP_NOTSET)
     return;
-  debug("pullup mode: %d", mode);
   gpio_mem[37] = mode & 0x3;
   usleep(1);
 
