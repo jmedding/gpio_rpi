@@ -80,7 +80,7 @@ int dht11_sense(struct gpio *pin)
   dir = GPIO_INPUT;
   if (gpio_init(pin, pin->pin_number, dir) < 0)
         errx(EXIT_FAILURE, "Error initializing GPIO as INPUT");
-  gpoi_set_int(pin, "falling");
+  gpio_set_int(pin, "falling");
   usleep( 20 ); // not sure that we need to wait, might miss first pullup from dht11
 
   /* detect change and read data */
