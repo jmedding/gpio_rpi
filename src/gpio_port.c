@@ -40,7 +40,7 @@
 
 extern int dht11_sense(struct gpio *pin);
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define debug(...) do { fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\r\n"); } while(0)
 #else
@@ -96,6 +96,7 @@ int gpio_init(struct gpio *pin, unsigned int pin_number, enum gpio_state dir)
     char value_path[64];
     sprintf(value_path, "/sys/class/gpio/gpio%d/value", pin_number);
 
+    debug("1");
     /* Check if the gpio has been exported already. */
     if (access(value_path, F_OK) == -1) {
         /* Nope. Export it. */
@@ -104,6 +105,7 @@ int gpio_init(struct gpio *pin, unsigned int pin_number, enum gpio_state dir)
         if (!sysfs_write_file("/sys/class/gpio/export", pinstr))
             return -1;
     }
+    debug("2");
 
     /* The direction file may not exist if the pin only works one way.
        It is ok if the direction file doesn't exist, but if it does
@@ -123,6 +125,7 @@ int gpio_init(struct gpio *pin, unsigned int pin_number, enum gpio_state dir)
         if (retries == 0)
             return -1;
     }
+    debug("3");
 
     pin->pin_number = pin_number;
 
