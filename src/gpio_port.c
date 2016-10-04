@@ -316,8 +316,10 @@ int main(int argc, char *argv[])
         errx(EXIT_FAILURE, "Specify 'input' or 'output'");
 
     struct gpio pin;
-    if (gpio_init(&pin, pin_number, initial_state) < 0)
+    if (gpio_init(&pin, pin_number, initial_state) < 0){
         errx(EXIT_FAILURE, "Error initializing GPIO %d as %s", pin_number, argv[2]);
+        return 1;
+    }
 
     struct erlcmd handler;
     erlcmd_init(&handler, gpio_handle_request, &pin);
