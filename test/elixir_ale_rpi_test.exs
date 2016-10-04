@@ -8,6 +8,7 @@ defmodule ElixirAleRpiTest do
   end
 
   test "start_link as :output" do
+    IO.puts "*************test ouput"
     {status, pid} = GpioRpi.start_link 4, :output
     assert status == :ok
   end
