@@ -6,4 +6,9 @@ defmodule ElixirAleRpiTest do
     result = GpioRpi.dht11 pid
     assert result == :ok
   end
+
+  test "start_link as :output" do
+    {status, pid} = GpioRpi.start_link 4, :output
+    assert status == :ok
+  end
 end
