@@ -39,17 +39,39 @@
 #define LOW 0
 #define MAXTIMINGS  85
 
-extern int gpio_read( struct gpio *pin);
-extern int gpio_write( struct gpio *pin, unsigned int val);
-extern int gpio_init(struct gpio *pin, unsigned int pin_number, enum gpio_state dir);
-extern int gpio_set_int(struct gpio *pin, const char *mode);
+extern int gpio_read(    struct gpio *pin);
+extern int gpio_write(   struct gpio *pin, unsigned int val);
+extern int gpio_init(    struct gpio *pin, unsigned int pin_number, enum gpio_state dir);
+extern int gpio_set_int( struct gpio *pin, const char *mode);
+extern void gpio_pullup( struct gpio *pin, char *mode_str);
 
 char *UP = "up";
 char *DOWN = "down";
 int dht11_dat[5] = { 0, 0, 0, 0, 0 };
 
+int dht11_sense(struct gpio pin) {
+  dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
+
+
+
+  //expects pin to be in :input mode
+  if (pin->state == GPIO_OUTPUT) 
+    errx(EXIT_FAILURE, "Error. GPIO must be initialized as INPUT");
+
+  if (gpio_read(pin) == HIGH) 
+    errx(EXIT_FAILUREm "Error, GPIO must have the pullup set to UP before dht11_sense");
+
+  debug("Send start signal");   
+  debug ("Start state: %d", gpio_read( pin ));
+  gpio_pullup(pin, DOWN);
+  debug ("pulled DOWN: %d", gpio_read( pin ));
+  usleep( 18 * 1000 );
+
+
+}
+
 //struct dht11Result dht11_sense(struct gpio *pin)
-int dht11_sense(struct gpio *pin)
+int dht11_sense_old(struct gpio *pin)
 {
   //expects pin to be in :output mode
   if (gpio_read(pin) == 0) {
