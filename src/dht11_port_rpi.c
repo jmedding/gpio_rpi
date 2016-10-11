@@ -49,7 +49,7 @@ char *UP = "up";
 char *DOWN = "down";
 int dht11_dat[5] = { 0, 0, 0, 0, 0 };
 
-int dht11_sense(struct gpio pin) {
+int dht11_sense(struct gpio *pin) {
   dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
 
 
@@ -59,7 +59,7 @@ int dht11_sense(struct gpio pin) {
     errx(EXIT_FAILURE, "Error. GPIO must be initialized as INPUT");
 
   if (gpio_read(pin) == HIGH) 
-    errx(EXIT_FAILUREm "Error, GPIO must have the pullup set to UP before dht11_sense");
+    errx(EXIT_FAILURE, "Error, GPIO must have the pullup set to UP before dht11_sense");
 
   debug("Send start signal");   
   debug ("Start state: %d", gpio_read( pin ));
@@ -67,7 +67,7 @@ int dht11_sense(struct gpio pin) {
   debug ("pulled DOWN: %d", gpio_read( pin ));
   usleep( 18 * 1000 );
 
-
+  return 0;
 }
 
 //struct dht11Result dht11_sense(struct gpio *pin)
